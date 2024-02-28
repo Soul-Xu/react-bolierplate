@@ -1,14 +1,20 @@
-import React from 'react';
-// import CustomLayout from '@/layout/CustomLayout'
-import CustomLayout from '../../layout/CustomLayout';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import BasicLayout from '../../layout/BasicLayout';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/emergency-plan');
+  }, [])
+
   return (
     <div>
-      <CustomLayout>
+      <BasicLayout>
         <h2>Home Page</h2>
         {/* 页面内容 */}
-      </CustomLayout>
+      </BasicLayout>
     </div>
   );
 };

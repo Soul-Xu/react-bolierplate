@@ -1,0 +1,12 @@
+.table {
+  height: calc(100vh - 50px);
+}
+
+.pagination {
+  height: 50px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  box-shadow: 0px -2px 8px 0px rgba(0,0,0,0.08);
+}

@@ -1,0 +1,169 @@
+.container {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    // width: 100vw;
+    height: 54px;
+    background: #FFFFFF;
+    box-shadow: inset 0px -1px 1px 0px rgba(0,0,0,0.08);
+
+    .header-left {
+      height: 24px;
+      font-size: 16px;
+      font-family: MicrosoftYaHei;
+      color: #1A202E;
+      line-height: 24px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+
+      .img {
+        margin-right: 16px;
+      }
+
+      .img:last-child {
+        margin-right: 0;
+      }
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+
+      img:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  .content {
+    padding: 32px 32px 50px 32px;
+
+    .form {
+      // width: 100vw;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .form-title {
+        height: 24px;
+        font-size: 24px;
+        font-family: MicrosoftYaHei, MicrosoftYaHei;
+        font-weight: bold;
+        color: #3C77DC;
+        line-height: 24px;
+        margin-bottom: 24px;
+      }
+
+      .form-content {
+        display: flex;
+        flex-wrap: wrap;
+
+        .form-content-main {
+          // width: 100vw;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between; /* 在每一行水平方向等分 */
+
+          .content-item {
+            width: calc(33.33% - 16px); /* 每一行三个等分 */
+            margin-right: 16px; /* 设置间距 */
+            margin-bottom: 16px; /* 设置下边距 */
+          }
+
+          .content-item-label {
+            width: 200px;
+            text-align: right;
+            height: 20px;
+            font-size: 14px;
+            font-family: MicrosoftYaHei;
+            color: #6E747E !important;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+    
+    .table {
+      margin-bottom: 32px;
+
+      .table-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        span {
+          height: 22px;
+          font-size: 14px;
+          font-family: MicrosoftYaHei, MicrosoftYaHei;
+          font-weight: bold;
+          color: #1A202E;
+          line-height: 22px;
+          margin-bottom: 16px;
+        }
+
+        .btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 110px;
+          height: 32px;
+          border-radius: 4px;
+          border: 1px solid #3C77DC;
+
+          img {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+          }
+
+          .btn-text {
+            height: 24px;
+            font-size: 14px;
+            font-family: PingFangSC, PingFang SC;
+            font-weight: 400;
+            color: #3C77DC;
+            line-height: 24px
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal {
+  &-header {
+    height: 50px;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-left {
+      height: 16px;
+      font-size: 16px;
+      font-family: MicrosoftYaHei, MicrosoftYaHei;
+      font-weight: bold;
+      color: #1A202E;
+      line-height: 16px;
+    }
+
+    &-right {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      img:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
