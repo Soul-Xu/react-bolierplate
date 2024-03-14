@@ -167,3 +167,15 @@
     }
   }
 }
+
+.table-btn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+}

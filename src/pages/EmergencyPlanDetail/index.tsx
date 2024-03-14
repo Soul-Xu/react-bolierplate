@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { Form, Input, Table } from 'antd'
+import { Form, Input, Table, Button } from 'antd'
 /** images */
 // @ts-ignore
 import ImgExpand from '../../static/images/expand.png'
@@ -23,6 +23,8 @@ const PlanDetail = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm();
   const [showDropExercise, setShowDropExercise] = useState(false)
+  // @ts-ignore
+  const [mainAppData, setMainAppData] = useState(window?.microApp?.getData() || {});
 
   const onShowAddModal = () => {
     setShowDropExercise(true)
@@ -131,7 +133,6 @@ const PlanDetail = () => {
       dataIndex: 'action',
       key: 'action',
       render: (record: any) => {
-        console.log("record", record)
         return (
           <a onClick={goToExercise}>查看详情</a>
         )
@@ -147,6 +148,31 @@ const PlanDetail = () => {
     navigate("/emergency-exercise/detail")
   }
 
+  // 监听基座数据
+  useEffect(() => {
+
+    // @ts-ignore
+    if (window.microApp) {
+      const dataListener = (data:any) => {
+        console.log('主应用传的数据-detail', data);
+        window.localStorage.setItem('mainAppData', JSON.stringify(data));
+        // @ts-ignore
+        setMainAppData(data);
+      }
+
+      // @ts-ignore
+      window.microApp.addDataListener(dataListener)
+      return () => {
+        // @ts-ignore
+        window.microApp.clearDataListener()
+      }
+    }
+  })
+
+  useEffect(() => {
+    console.log("演练记录", mainAppData?.name)
+  }, [mainAppData?.name])
+
   return (
     <div className={classNames("container")}>
       <section className={classNames("header")}>
@@ -157,7 +183,7 @@ const PlanDetail = () => {
           {/* <div className={classNames("img")}>
             <img src={ImgExpand}/></div>
           <div className={classNames("img")}><img src={ImgShrink} /></div> */}
-          <div className={classNames("img")} onClick={onGoBack}><img src={ImgClose} /></div>
+          <Button type='text' onClick={onGoBack}>返回</Button>
         </div>
       </section>
       <section className={classNames("content")}>
@@ -236,10 +262,17 @@ const PlanDetail = () => {
         <div className={classNames("table")}>
           <div className={classNames("table-title")}>
             <span>技术处理方案</span>
-            <div className={classNames("btn")} onClick={onShowAddModal}>
+            {
+              mainAppData?.name?.includes('admin') &&
+              <div onClick={onShowAddModal} className={classNames("table-btn")}>
+                <img src={ImgAdd} />
+                <div className={classNames("btn-text")}>发起演练</div>
+              </div>
+            }
+            {/* <div onClick={onShowAddModal}>
               <img src={ImgAdd} />
               <div className={classNames("btn-text")}>发起演练</div>
-            </div>
+            </div> */}
           </div>
           <div className={classNames("table-content")}>
             <Table 

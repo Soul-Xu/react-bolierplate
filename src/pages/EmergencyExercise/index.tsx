@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Input, Table, Tabs, Collapse, DatePicker, Checkbox, Modal } from 'antd'
 import type { DatePickerProps } from 'antd';
@@ -33,6 +33,8 @@ const ExerciseDetail = () => {
   const [showAddRelation, setShowAddRelation] = useState(false)
   const [modalVisible, setModalVisible] = useState(false);
   const [pdfSrc, setPdfSrc] = useState('');
+  // @ts-ignore
+  const [mainAppData, setMainAppData] = useState(window?.microApp?.getData() || {});
 
   const onShowAddModal = () => {
     setShowAddRelation(true)
@@ -49,7 +51,7 @@ const ExerciseDetail = () => {
   const onPreviewPDF = () => {
     console.log("onPreviewPDF")
     const element:any = document.getElementById('capture');
-    html2canvas(element).then((canvas) => {
+    html2canvas(element, { width: element.offsetWidth, height: element.offsetHeight }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
       pdf.addImage(imgData, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
@@ -86,12 +88,41 @@ const ExerciseDetail = () => {
     },
   ];
 
+    // 监听基座数据
+    useEffect(() => {
+
+      // @ts-ignore
+      if (window.microApp) {
+        const dataListener = (data:any) => {
+          console.log('主应用传的数据-detail', data);
+          window.localStorage.setItem('mainAppData', JSON.stringify(data));
+          // @ts-ignore
+          setMainAppData(data);
+        }
+  
+        // @ts-ignore
+        window.microApp.addDataListener(dataListener)
+        return () => {
+          // @ts-ignore
+          window.microApp.clearDataListener()
+        }
+      }
+    })
+
   const operations = <div className={classNames("tabs-btns")}>
-    <Button className={classNames("tabs-btn")} >取消</Button>
-    <Button className={classNames("tabs-btn")} onClick={onPreviewPDF} >预览PDF</Button>
-    <Button className={classNames("tabs-btn")} >保存</Button>
-    <Button className={classNames("tabs-btn")}  type='primary'>提交</Button>
-  </div>;
+    { mainAppData?.name?.includes('admin') ? (
+      <div>
+        <Button className={classNames("tabs-btn")} >取消</Button>
+        <Button className={classNames("tabs-btn")} onClick={onPreviewPDF} >预览PDF</Button>
+        <Button className={classNames("tabs-btn")} >保存</Button>
+        <Button className={classNames("tabs-btn")}  type='primary'>提交</Button>
+      </div>
+    ) : (
+      <div>
+        <Button className={classNames("tabs-btn")} onClick={onPreviewPDF} >预览PDF</Button>
+      </div>
+    )}
+  </div>
 
   const dataSource1:any = [
     {
@@ -262,17 +293,30 @@ const ExerciseDetail = () => {
     console.log('onOk: ', value);
   };
 
+  useEffect(() => {
+    console.log("技术处理方案", mainAppData?.name)
+  }, [mainAppData?.name])
+
   const renderContent = () => {
     return (
       <section className={classNames("content")}>
         {renderForm()}
         <div className={classNames("content-title")}>技术处理方案</div>
-        {renderCollapse("场景一")}
-        {renderCollapse("场景二")}
-        {renderCollapse("场景三")}
-    </section>
-    )
-  }
+        {mainAppData?.name?.includes('admin') ? (
+          <div>
+            {renderCollapse("场景一")}
+            {renderCollapse("场景二")}
+            {renderCollapse("场景三")} 
+          </div>
+        ) : (
+          <div>
+            {renderCollapse("场景一")}
+          </div>
+        )}
+      </section>
+    );
+  };
+  
 
   const renderForm = () => {
     return (
@@ -411,7 +455,7 @@ const ExerciseDetail = () => {
             </div> */}
             {/* <div className={classNames("img")}><img src={ImgExpand}/></div>
             <div className={classNames("img")}><img src={ImgShrink} /></div> */}
-            <div className={classNames("img")} onClick={onGoBack}><img src={ImgClose} /></div>
+            <Button type='text' onClick={onGoBack}>返回</Button>
           </div>
         </section>
         <Tabs 

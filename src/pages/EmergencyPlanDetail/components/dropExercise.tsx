@@ -1,7 +1,7 @@
 // 添加跟进事项弹窗
 
 import React, { useState } from 'react'
-import { Divider, Modal, Table } from 'antd'
+import { Divider, Modal, Table, Button } from 'antd'
 /** images */
 // @ts-ignore
 import ImgExpand from '../../../static/images/expand.png'
@@ -109,7 +109,7 @@ const DropExercise = (props: Props) => {
             <div className={classNames("modal-header-right")}>
               {/* <div className={classNames("img")}><img src={ImgExpand}/></div>
               <div className={classNames("img")}><img src={ImgShrink} /></div> */}
-              <div className={classNames("img")} onClick={() => onClose()}><img src={ImgClose} /></div>
+              <Button type='text' onClick={() => onClose()}>返回</Button>
             </div>
           </div>
           <Divider style={{ marginTop: 0, marginBottom: 0 }}/>
